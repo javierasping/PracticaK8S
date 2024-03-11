@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django-tutorial-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django-tutorial-web
+  template:
+    metadata:
+      labels:
+        app: django-tutorial-web
+    spec:
+      containers:
+      - name: django-tutorial-web
+        image: javierasping/django_tutorial_ic
+        env:
+        - name: DB_HOST
+          value: mariadb-django
+        - name: DB_USER
+          value: javiercruces
+        - name: DB_PASS
+          value: javiercruces
+        - name: DB_NAME
+          value: django
+        - name: URL_BASE
+          value: "http://djangodocker.javiercd.es/"
+        - name: DJANGO_SUPERUSER_USERNAME
+          value: admin
+        - name: DJANGO_SUPERUSER_EMAIL
+          value: admin@admin.com
+        - name: DJANGO_SUPERUSER_PASSWORD
+          value: admin
+        - name: PRODUCCION
+          value: "false"
+        ports:
+        - containerPort: 3000
+

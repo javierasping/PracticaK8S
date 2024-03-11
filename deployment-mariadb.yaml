@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-django
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb-django
+  template:
+    metadata:
+      labels:
+        app: mariadb-django
+    spec:
+      containers:
+      - name: mariadb-django
+        image: mariadb
+        env:
+        - name: MYSQL_DATABASE
+          value: django
+        - name: MYSQL_USER
+          value: javiercruces
+        - name: MYSQL_PASSWORD
+          value: javiercruces
+        - name: MYSQL_ROOT_PASSWORD
+          value: root_javiercruces
+        volumeMounts:
+        - name: mariadb-django-volume
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mariadb-django-volume
+        persistentVolumeClaim:
+          claimName: mariadb-django-pvc
